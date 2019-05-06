@@ -1,0 +1,56 @@
+package com.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class TestJDBC1 {
+	public static void main(String[] args) {
+		Connection con = null;
+		Statement sta = null;
+		//2 加载驱动程序
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			//3得到连接
+			String url = "jdbc:sqlserver://127.0.0.1:1433;databaseName=studentManager";
+			con = DriverManager.getConnection(url, "sa", "sa");
+			//4 创建Statement对象
+			sta = con.createStatement();
+			String sql = 
+					  "insert into student"
+					+ "		(stuName, stuAddress, stuBtd, stuTel, stuSex) "
+					+ "values "
+					+ "		('西门吹雪','北京','1988-9-8','999999',default)";
+			//String sql = "update student set stuName='小凤凤', stuAddress='陕南',stuBtd='1999-9-9', stuTel='18888888888', stuSex=1 where stuId = 7";
+			//String sql = "delete from student where stuId = 7";
+			//5 执行sql语句
+			int row = sta.executeUpdate(sql);
+			if (row == 1) {
+				System.out.println("操作成功");
+			} else {
+				System.out.println("操作失败");
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println("驱动程序没有找到");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//6 关闭资源
+			try {
+				if (sta != null) {
+					sta.close();
+					sta = null;
+				}
+				if (con != null) {
+					con.close();
+					con = null;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+}
