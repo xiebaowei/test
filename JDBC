@@ -12,9 +12,11 @@ public class TestJDBC1 {
 		//2 加载驱动程序
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			
 			//3得到连接
 			String url = "jdbc:sqlserver://127.0.0.1:1433;databaseName=studentManager";
 			con = DriverManager.getConnection(url, "sa", "sa");
+			
 			//4 创建Statement对象
 			sta = con.createStatement();
 			String sql = 
